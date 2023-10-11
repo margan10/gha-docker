@@ -12,6 +12,7 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    container: node:16 #this is all I need to run my jobs on a containter in this example I selected node container
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.ymp5di9.mongodb.net #configured to reflect my mongodb

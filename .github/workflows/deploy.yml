@@ -14,11 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     container: node:16 #this is all I need to run my jobs on a containter in this example I selected node container
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster0.ymp5di9.mongodb.net #configured to reflect my mongodb
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }} #added to github secrets on environment level
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      #MONGODB_CONNECTION_PROTOCOL: mongodb+srv this was without the container service to use my mongodb
+      #MONGODB_CLUSTER_ADDRESS: cluster0.ymp5di9.mongodb.net #configured to reflect my mongodb, this was without the container service to use my mongodb
+      #this was used to targer my db from containter MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }} #added to github secrets on environment level
+      #this was used to targer my db from containter MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}      
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb-could-be-enything #this can be used if the job runs in container as there is a link between container and services in image
+      MONGODB_USERNAME: root #need the same credentials when using services mongo image
+      MONGODB_PASSWORD: example 
       PORT: 8080
+    services:
+      mongodb-could-be-enything: 
+        image: mongo #services always run in container so I have to add image key and define base image (docker hub)
+        env: #this specific image requires at least 2 env 
+          MONGODB_USERNAME: root
+          MONGODB_PASSWORD: example
     steps:
       - name: Get Code
         uses: actions/checkout@v3
